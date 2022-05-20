@@ -415,18 +415,18 @@
       - 즉 T요소를 A누적기가 R에 저장
 
 ### Collector의 구현 객체
-      - Collectors 클래스의 정적 메소드를 이용
-      정적 메소드 모음(collect()에 들어갈 매개변수(parmeter) 정리)
-      | 리턴타입 | 메소드(매개변수) | 인터페이스 |
-      |---|:---:|---:|
-      | `Collector<T,?,Collection<T>>` | Collectors.toCollection(Supplier <T>) | Supplier가 제공하는 컬렉션에 요소를 수집하는 컬렉터를 반환한다. |
-      | `Collector<T,?,ConcurrentMap<K,U>>` | Collectors.toConcurrentMap(...) | toConcurrentMap()는 멀티스레드 환경에서 쓰레드의 안전한 ConcurrentMap을 만들어 요소를 수집&반환한다. |
-      | `Collector<T,?,List<T>>` | Collectors.toList() | List에 요소들을 수집하는 컬렉션을 반환 |
-      | `Collector<T,?,Set<T>>` | Collectors.toSet(...) | Set에 요소들을 수집하는 컬렉션을 반환 |
-      | `Collector<T,?,Map<T>>` | Collectors.toMap(...) | Map에 요소들을 수집하는 컬렉션을 반환 |
+  - Collectors 클래스의 정적 메소드를 이용
+  정적 메소드 모음(collect()에 들어갈 매개변수(parmeter) 정리)
+  | 리턴타입 | 메소드(매개변수) | 인터페이스 |
+  |---|:---:|---:|
+  | `Collector<T,?,Collection<T>>` | Collectors.toCollection(Supplier <T>) | Supplier가 제공하는 컬렉션에 요소를 수집하는 컬렉터를 반환한다. |
+  | `Collector<T,?,ConcurrentMap<K,U>>` | Collectors.toConcurrentMap(...) | toConcurrentMap()는 멀티스레드 환경에서 쓰레드의 안전한 ConcurrentMap을 만들어 요소를 수집&반환한다. |
+  | `Collector<T,?,List<T>>` | Collectors.toList() | List에 요소들을 수집하는 컬렉션을 반환 |
+  | `Collector<T,?,Set<T>>` | Collectors.toSet(...) | Set에 요소들을 수집하는 컬렉션을 반환 |
+  | `Collector<T,?,Map<T>>` | Collectors.toMap(...) | Map에 요소들을 수집하는 컬렉션을 반환 |
 
-      - A(누적기)가 ?인 이유
-        - List, Set, Map 컬렉션에 누적할 경우에는 별도의 A(누적기)가 필요 없다.
+  - A(누적기)가 ?인 이유
+    - List, Set, Map 컬렉션에 누적할 경우에는 별도의 A(누적기)가 필요 없다.
 
  ※ 예시 코드
   * 전체 학생 List에서 남학생들만 별도의 List로 생성

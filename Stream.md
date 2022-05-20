@@ -214,7 +214,6 @@
                     intArr[i] = Integer.parseInt(strArray[i].trim()); // 빈칸 제거 후 Stirng 배열의 값을 int로 바꿔 위에서 생성한 int 배열에 넣는다.
                }
                   return Arrays.stream(intArr);
-              });
 
      ```
 
@@ -225,6 +224,18 @@
 <img src="https://t1.daumcdn.net/cfile/tistory/99619B485A5EC63208" width="700" height="500"/>
 
 
+#### asDoubleStream(), asLongStream(), boxed()
+| 반환타입 | 메서드 | 설명 |
+|---|:---:|---:|
+| `DoubleStream` | asDoubleStream() | int -> double |
+|  |  | long -> double |
+| `LongStream` | asLongStream() | int -> long |
+| `Stream<Integer>` | boxed() | int -> Integer |
+| `Stream<Long>` | | long -> long |
+| `Stream<Double>` | | double -> Double |
+  - asDoubleStream(): IntStream의 int 요소 또는 LongStream의 long 요소를 double 요소로 타입 변환해 DoubleStream 생성
+  - asLongStream(): IntStream의 int 요소 long 요소로 타입 변환해서 LongStream 생성
+  - boxed(): int, long, double 요소를 Integer, Long, Double로 박싱해 Stream 생성
 
 
 

@@ -27,7 +27,7 @@
     - 병렬처리: 한가지 작업을 n개의 서브 작업으로 나눌 수 있으며 이들을 분리도니 스레드에서 병렬적으로 처리 한 후 서브 작업의 결과물을 결합하는 방식
 
 
-<img src="./외부_내부_반복자.png" width="450px" height="300px" title="외부_내부_반복자" alt="repeator"></img><br/>
+        <img src="./외부_내부_반복자.png" width="450px" height="300px" title="외부_내부_반복자" alt="repeator"></img><br/>
 
 
   예시 코드
@@ -53,11 +53,11 @@
       |
       최종처리(aggregation 집계)- Reduction 수행
   - 최종처리: 반복문, 카운트, 평균, 총합  
-      <img src="./중간최종연산" width="450px" height="300px" title="외부_내부_반복자" alt="repeator"></img><br/>
+      <img src="./중간최종연산.png" width="450px" height="300px" title="외부_내부_반복자" alt="repeator"></img><br/>
 
 
 스트림의 종류
-<img src="./스트림 종류" width="450px" height="300px" title="스트림 종류" alt="stream type"></img><br/>
+      <img src="./스트림 종류.jpg" width="450px" height="300px" title="스트림 종류" alt="stream type"></img><br/>
 
 
 

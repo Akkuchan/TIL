@@ -32,22 +32,22 @@
 
 
   ※ 예시 코드
+
   ```java
-  List<Student> list = Arrays.adList(
-            "가나다","라마바","사아자","차카타", "파하거"
-            );
+    List<Student> list = Arrays.adList(
+              "가나다","라마바","사아자","차카타", "파하거"
+              );
 
-            //순차처리
-            list.stream()
-              .forEach(ParallelExample :: print);
+              //순차처리
+              list.stream()
+                .forEach(ParallelExample :: print);
 
-            //병렬처리
-            list.parallerlStream()
-              .parallelStream
-              .forEach(ParallelExample :: print);   
+              //병렬처리
+              list.parallerlStream()
+                .parallelStream
+                .forEach(ParallelExample :: print);   
 
-
-```
+  ```
 
   - 스트림은 중간 처리와 최종 처리를 할 수 있다.
     - 중간처리: 요소들의 매핑, 필터링, 정렬

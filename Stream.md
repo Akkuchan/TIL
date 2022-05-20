@@ -31,6 +31,7 @@
 
 
   예시 코드
+
   ```java
   List<Student> list = Arrays.adList(
             "가나다","라마바","사아자","차카타", "파하거"
@@ -43,7 +44,7 @@
               .parallelStream
               .forEach(ParallelExample :: print);    
             })
-            ```
+```
 
   - 스트림은 중간 처리와 최종 처리를 할 수 있다.
     - 중간처리: 요소들의 매핑, 필터링, 정렬
@@ -53,11 +54,11 @@
       |
       최종처리(aggregation 집계)- Reduction 수행
   - 최종처리: 반복문, 카운트, 평균, 총합  
-      <img src="./중간최종연산.png" width="450px" height="300px" title="외부_내부_반복자" alt="repeator"></img><br/>
+      <img src="./중간최종연산.png" width="800px" height="400px" title="외부_내부_반복자" alt="repeator"></img><br/>
 
 
 스트림의 종류
-      <img src="./스트림 종류.jpg" width="450px" height="300px" title="스트림 종류" alt="stream type"></img><br/>
+      <img src="./스트림 종류.jpg" width="800px" height="400px" title="스트림 종류" alt="stream type"></img><br/>
 
 
 

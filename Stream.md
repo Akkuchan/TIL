@@ -1,3 +1,69 @@
+스트림
+- 스트림은 반복자 : 컬렉션(배열 포함)의 요소를 하나씩 참조해서 람다식으로 처리할 수 있는 반복자
+- 스트림 이전에는 iterator를 생성하고 반복문을 사용하였다.
+- 스트림을 통해 이전 보다 간결하게 반복을 할 수 있게 되었다.
+
+스트림의 특징
+- 람다식으로 요소 처리 코드를 제공한다.
+  - 스트림이 제공하는 대부분의 요소 처리 메소드는 함수적 인터페이스 매개타입을 가진다.
+  - 매개값으로 람다식 또는 메소드 참조를 대입할 수 있다.
+
+  예시 코드
+  ```java
+  List<Student> list = Arrays.adList(
+            new Student("홍길동", 90),
+            new Student("김철수", 80),
+            );
+  stream.forEach(s->{
+    String name = s.getName();
+    int score = s.getScore();
+  })
+
+- 내부 반복자를 사용하므로 병렬처리가 쉽다.
+  - 외부 반복자(iterator): 개발자가 코드로 직접 컬렉션 요소를 반복해 요청하고 가져오는 코드(.next())
+  - 내부 반복자(Stream): 컬렉션 내부에서 요소들을 반복시키고 개발자는 요소당 처리해야할 코드만 제공하는 코드 패텅
+    - 요소 처리 코드에만 집중하면 된다.
+    - 멀티 코어 CPU를 최대한 활용하기 위해 요소들을 분배시켜 병렬 처리 작업을 할 수 있다.
+    - 병렬처리: 한가지 작업을 n개의 서브 작업으로 나눌 수 있으며 이들을 분리도니 스레드에서 병렬적으로 처리 한 후 서브 작업의 결과물을 결합하는 방식
+
+
+<img src="./외부_내부_반복자.png" width="450px" height="300px" title="외부_내부_반복자" alt="repeator"></img><br/>
+
+
+  예시 코드
+  ```java
+  List<Student> list = Arrays.adList(
+            "가나다","라마바","사아자","차카타", "파하거"
+            );
+            //순차처리
+            list.stream()
+              .forEach(ParallelExample :: print);
+            //병렬처리
+            list.parallerlStream()
+              .parallelStream
+              .forEach(ParallelExample :: print);    
+})
+```
+
+  - 스트림은 중간 처리와 최종 처리를 할 수 있다.
+    - 중간처리: 요소들의 매핑, 필터링, 정렬
+      Data(JCK)- 미가공 데이터
+      |
+      중간처리(map,sort, filttering..)- 데이터 가공
+      |
+      최종처리(aggregation 집계)- Reduction 수행
+  - 최종처리: 반복문, 카운트, 평균, 총합  
+      <img src="./중간최종연산" width="450px" height="300px" title="외부_내부_반복자" alt="repeator"></img><br/>
+
+
+스트림의 종류
+<img src="./스트림 종류" width="450px" height="300px" title="스트림 종류" alt="stream type"></img><br/>
+
+
+
+
+
+
 집계(Aggregate)
 - 최정 처리 기능
     - 카운팅, 합계, 평균값, 최대값, 최소값 등 하나의 최종값을 산출한다
@@ -173,7 +239,7 @@ Optional 클래스
 
     - Collector의 구현 객체
       - Collectors 클래스의 정적 메소드를 이용
-      정적 메소드 모음
+      정적 메소드 모음(collect()에 들어갈 매개변수(parmeter) 정리)
       | 리턴타입 | 메소드(매개변수) | 인터페이스 |
       |---|:---:|---:|
       | `Collector<T,?,Collection<T>>` | Collectors.toCollection(Supplier <T>) | Supplier가 제공하는 컬렉션에 요소를 수집하는 컬렉터를 반환한다. |

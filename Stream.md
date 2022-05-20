@@ -65,8 +65,164 @@
 
 
 ## 스트림의 종류
-    ![ex_screenshot](./스트림 종류.jpg)
+
   <img src="./스트림 종류.jpg" width="800px" height="400px" title="스트림 종류" alt="stream type"></img><br/>
+
+## 스트림 구현 객체를 얻는 방법
+  | 리턴타입 | 메서드(매개변수) | 소스 |
+  |---|:---:|---|
+  | `Stream<T>` | java.util.Collection.stream() | 컬렉션 |
+  | | java.util.Collection.parallelStream() | |
+  | `Stream<T>` | Arraysstream(T[])   Stream.of(T[]) | 배열 |
+  | `IntStream` | Arraysstream(int[])   IntStream.of(int[]) | |
+  | `LongStream` | Arraysstream(long[])   LongStream.of(T[]) | |
+  | `DoubleStream` | Arraysstream(double[])   DoubleStream.of(double[])| |
+  | `IntStream` | IntStream.range(int, int) | int 범위 |
+  | | IntStream.rangeClosed(int, int) | |
+  | LongStream | LongStream.range(long, long) | long 범위 |
+  | | LongStreamClosed(long, long) | |
+  |`Stream<Path`| Files.find(Path, int, BiPredicate, FileVisitOptiopn) | 디렉토리 |
+  |  | Files.list(Path) | |
+  | `Stream<String>` | Files.lines(Path, Charset) | 파일 |
+  | | BufferedReader.lines()| |
+  | `DoubleStream` | Random.doubles(...) | 랜덤수 |
+  | `IntStream` | Random.ints() | |
+  | `LongStream` | Random.longs() | |
+
+  - Files.find(Path, int, BiPredicate, FileVisitOptiopn) : path안에 있는 파일 중에서 BiPredicate라는 조건에 true인 것 뽑아 요소를 가지게 한다.FileVisitOptiopn은 필터링 기능을 의미
+  - Files.lines(Path, Charset) : path에 있는 파일에서 문자타입(Charset, ex)UTF-8)을 확인해 한 라인씩 Stream의 요소로 만든다
+
+### 배열로 부터 스트림 얻기
+ ※ 예시 코드
+```java
+  String[] strArray = {"김기나", "이리니", "박다오"};
+  Stream<String> strStream = Arrays.stream(strArray);
+  strStream.forEach(a-> System.out.print(a+","));
+
+  int[] intArray = {1,2,3,4,5};
+  IntStream intStream = Arrays.stream(intArray);
+  intStream.forEach(a-> System.out.print(a+","));
+
+```
+### 숫자 범위에서 스트림 얻기
+```java
+  IntStream stream = IntStream.rnageCloesd(1,100);// Closed는 마지막 100은 뺀 1~99까지를 범위로 지정함을 의미
+  stream.forEach(a -> sum+= a);
+  System.out.println("총합: " +sum);
+```
+### 파일에서 스트림 얻기
+```java
+  Path path = Paths.get("어떤 파일의 위치")
+  Stream<String> stream;
+
+  //Files.lines() 메소드 이용
+  stream = Files.lines(Path, Charset.defaultCharset:());// defaultCharset:파일에 설정된 기본 문자셋을 선택한다는 의미
+  //파일에 있는 행의 데이터를 스트림에 담는 코드
+  stream.forEach(System.out :: println);
+  System.out.println();
+
+  //BufferedReader의 lines()메소드 이용
+  File file = path.toFile();//path에 있는 파일을 FILE 타입 참조변수에 담는다.
+  FileReader fileReader = new FileReader(file);// file을 통해 파일을 읽을 수 있는 리더를 만든다.
+  BufferedReader br = new BufferedReader(fileReader);// BufferedReader 성능 향상을 위해 적용하는 코드
+  stream = br.lines();// 파일의 라인별로 데이터를 담는다.
+  stream.forEach(System.out :: println);
+
+```
+
+## 스트림 파이프라인
+
+## 중간처리와 최종처리
+  - 리덕션
+    - 대량의 데이터를 가공해서 축소하는 것을 의미(합계, 평균값, 카운팅, 최대값, 최소값 등을 집계하는 것)
+    - 요소가 리덕션의 결과물로 바로 집계할 수 없을 경우 중간처리가 필요
+    - 중간 처리한 요소를 최종 처리해서 리덕션 결과물을 산출한다.
+
+  - 스트림은 중간 처리와 최종 처리를 파이프라인으로 해결한다.
+    - 파이프라인 : 스트림이 파이프라인 같다고 붙인 말
+      - 중간처리 메서드(필터링, 매핑, 정렬)는 중간 처리된 스트림을 리턴, 이를 다시 다음 중간 처리 메서드가 호출해 파이프라인 형성
+    - 최종 스트림의 집계 기능이 시작되기 전까지 중간처리는 지연된다
+      - 최종 연산전에 값을 미리 계산하는 것이 라니라 최종 메서드가 실행될 때서야 처음부터 중간 스트림 메서드들이 실행된다.
+      - 이는 연산 자원을 아끼기 위함이다.
+
+    ※ 예시 코드
+```java
+  list.stream();
+      .filter(m -> m.getSex() == Member.MALE); //stream()의 반환되는 Steam<Member>타입 객체를 통해 값을 얻고 이 객체를 통해 getSex()실행 및 Member.MALE과 비교, 해당 기준을 통과한 객체의 값만을 모아 또다른 스트림 객체로 반환
+      .mapToInt(Member::getAge)//filter로 반환된 Steam<Member>타입의 객체를 받고 해당 객체를 통해 getAge()를 통해 또다른 값을 얻고 이를 IntSteam타입의 스트림으로 반환
+      .average()// 반환타입: OptionalDouble
+      .getAsDouble;
+
+```
+## 중간처리 메서드 및 최종 처리 메서드 모음
+
+## 중간처리 메서드
+  - 중간처리 메서드에는 크게 필터링, 매핑, 정렬, 루핑 4가지 기능이 있다.
+  - 이들 메서드 중 일부는 특정 스트림(Ex. IntStream, LongStream 등)에만 적용되기에 활용을 위해선 메서드의 타입과 반환타입을 알고 있으면 좋다.
+## 최종처리 메서드
+  - 최종처리 메서드도 매칭, 집계, 루핑, 수집의 기능으르로 나뉘어진다.
+
+
+
+### 중간 메서드 -  필터링 메서드
+| 리턴타입 | 메서드(매개변수) | 설명 |
+|---|:---:|---:|
+| `Stream`, `IntStream`,`LongStream`, `DoubleStream` | distinct() | 중복제거 |
+|  | filter(Predicate), filter(IntPredicate), filter(LongPredicate), filter(DoublePredicate) | 조건 필터링 |
+|  | | |
+|  | | |
+|  | | |
+
+
+#### distinct()
+  - equals()가 true일 때 중복을 제거한다.
+
+#### filter()
+  - 파라미터인 Predicate가 true인 값만 리턴해 스트림으로 반환
+  - Predicate는 함수형 인터페이스로서 앞의 스트림에서 필터링할 기준을 나타낸다. 보통 람다식으로 표현한다.
+
+
+
+### 중간 메서드 -  매핑 메서드
+  - 매핑이랑 스트링의 요소를 다른 요소로 대체하는 것을 의미( 객체를 int, long double 등으로 대체한다.)
+  - 대체가 1 대 1 관계일 필요는 없다. 1대 多도 가능
+
+
+#### flatMapXXX()
+  - 한개의 요소를 대체하는 복수개의 요소들로 구성된 새로운 스트림을 리턴
+  - 즉 어떤 한 객체 A에서 A1, A2, A3, ... 등의 여러 요소로 대체한다(뽑아 낸다)는 의미
+
+  | 리턴타입 | 메서드(매개변수) | 요소 -> 대체 요소 |
+  |---|:---:|---:|
+  | `Stream <R>` | flatMap(Function<T, Stream<R> >) | T -> Stream<R> |
+  | `DoubleStream` | flatMap(DoubleFunction< DoubleStream >) | ouble -> DoubleStream |
+  | `IntStream` | flatMap( IntFunction< IntStream >) | int -> IntStream |
+  | `LongStream`  | flatMap( LongFunction< LongStream >)| long -> LongStream |
+  | `DoubleStream` | flatMapDouble( Function<T, DoubleStream >)| T -> DoubleStream |
+  | `IntStream` | flatMap(Function<T, IntStream >) | T -> IntStream |
+  | `LongStream` | flatMap(Function<T, LongStream >)| T -> LongStream|
+ - 여기서 Function은 어떤 기능(제한조건, 함수)을 한다는 의미이다. 예로 Function<T, IntStream >은 T라는 **객체**를 받아 IntStream으로 반환한다는 의미이고 flatMap( LongFunction< LongStream >)는 Long 타입의 **값**이 담긴 스트림을 받아 LongStream 타입의 새로운 스트림으로 반환한다는 의미 . 주로 람다식을 작성한다.
+
+ ※ 예제 코드
+     ```java
+     List<Stirng> inputLisrt2 = Arrays.asList("10, 20, 30", "40, 50, 60")
+          inputLisrt2.stream()
+              .flatMapToInt(data ->
+               {String[] strArray = data.split(".");//10, 20, 30 나눠진 것을 10/ 20/ 30으로 구분
+                int[] intArr = new int[strArray.length];// 구분해 놓은 배열 크기대로 int 배열 생성
+                for(int i=0; i<strArray.length;
+                    intArr[i] = Integer.parseInt(strArray[i].trim()); // 빈칸 제거 후 Stirng 배열의 값을 int로 바꿔 위에서 생성한 int 배열에 넣는다.
+               }
+                  return Arrays.stream(intArr);
+              });
+
+     ```
+
+#### mapXXX()
+  - 요소를 대체하는 요소로 구성된 새로운 스트림
+  - flatMap과 달리 주어진 하나의 요소를 다른 하나의 요소로 대체한다.(1대1)
+
+<img src="https://t1.daumcdn.net/cfile/tistory/99619B485A5EC63208" width="700" height="500"/>
 
 
 

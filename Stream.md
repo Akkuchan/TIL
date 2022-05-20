@@ -417,6 +417,7 @@
 ### Collector의 구현 객체
   - Collectors 클래스의 정적 메소드를 이용
   정적 메소드 모음(collect()에 들어갈 매개변수(parmeter) 정리)
+
   | 리턴타입 | 메소드(매개변수) | 인터페이스 |
   |---|:---:|---:|
   | `Collector<T,?,Collection<T>>` | Collectors.toCollection(Supplier <T>) | Supplier가 제공하는 컬렉션에 요소를 수집하는 컬렉터를 반환한다. |

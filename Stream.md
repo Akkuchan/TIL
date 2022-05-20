@@ -393,7 +393,7 @@
     .reduce(0, (a, b) -> a+b);
     // 디폴트 값으로 0을 넣어줌,NoSuchElementException 방지
 
-  ```
+```
 
 ## 수집 collect()
   - 최종 처리 기능으로 요소들을 수집 또는 그룹핑한다.  
@@ -407,14 +407,14 @@
   | `R` | collect(Collector<T,A,R> collector) | Stream |
     collect()를 통해 요소를 어떤 컬렉션(List, Set, Map 등)에 저장할 것인지를 결정함
 
-    - Collector의 타입 파라미터의 역
+ ### Collector의 타입 파라미터의 역
       - T : 수집할 요소
       - A : 누적기(accumulator)- T라는 요소를 Collection에 수집하는 기능 수행,
         ※ ?인 이유는 컬렉션 프레임(L,S,M)의 경우 각자 주어진 요소를 저장하는 소스코드가 내장해 있기에 구체적으로 명시하지 않는다는 의미.
       - R : 요소가 저장될 새로운 컬렉션- T 요소가 수집될 장소, 저장
       - 즉 T요소를 A누적기가 R에 저장
 
-    - Collector의 구현 객체
+### Collector의 구현 객체
       - Collectors 클래스의 정적 메소드를 이용
       정적 메소드 모음(collect()에 들어갈 매개변수(parmeter) 정리)
       | 리턴타입 | 메소드(매개변수) | 인터페이스 |
@@ -424,7 +424,6 @@
       | `Collector<T,?,List<T>>` | Collectors.toList() | List에 요소들을 수집하는 컬렉션을 반환 |
       | `Collector<T,?,Set<T>>` | Collectors.toSet(...) | Set에 요소들을 수집하는 컬렉션을 반환 |
       | `Collector<T,?,Map<T>>` | Collectors.toMap(...) | Map에 요소들을 수집하는 컬렉션을 반환 |
-
 
       - A(누적기)가 ?인 이유
         - List, Set, Map 컬렉션에 누적할 경우에는 별도의 A(누적기)가 필요 없다.

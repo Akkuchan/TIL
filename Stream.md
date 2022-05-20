@@ -1,9 +1,9 @@
-#스트림
+# 스트림
 - 스트림은 반복자 : 컬렉션(배열 포함)의 요소를 하나씩 참조해서 람다식으로 처리할 수 있는 반복자
 - 스트림 이전에는 iterator를 생성하고 반복문을 사용하였다.
 - 스트림을 통해 이전 보다 간결하게 반복을 할 수 있게 되었다.
 
-##스트림의 특징
+## 스트림의 특징
 - 람다식으로 요소 처리 코드를 제공한다.
   - 스트림이 제공하는 대부분의 요소 처리 메소드는 함수적 인터페이스 매개타입을 가진다.
   - 매개값으로 람다식 또는 메소드 참조를 대입할 수 있다.
@@ -18,6 +18,7 @@
     String name = s.getName();
     int score = s.getScore();
   })
+  ```
 
 - 내부 반복자를 사용하므로 병렬처리가 쉽다.
   - 외부 반복자(iterator): 개발자가 코드로 직접 컬렉션 요소를 반복해 요청하고 가져오는 코드(.next())
@@ -56,10 +57,14 @@
       |
       최종처리(aggregation 집계)- Reduction 수행
   - 최종처리: 반복문, 카운트, 평균, 총합  
-      <img src="./중간최종연산.png" width="800px" height="400px" title="외부_내부_반복자" alt="repeator"></img><br/>
+  <img src="./중간최종연산.png" width="800px" height="400px" title="외부_내부_반복자" alt="repeator"></img><br/>
 
 
-##스트림의 종류
+
+
+
+
+## 스트림의 종류
       <img src="./스트림 종류.jpg" width="800px" height="400px" title="스트림 종류" alt="stream type"></img><br/>
 
 
@@ -67,12 +72,12 @@
 
 
 
-##집계(Aggregate)
+## 집계(Aggregate)
 - 최정 처리 기능
     - 카운팅, 합계, 평균값, 최대값, 최소값 등 하나의 최종값을 산출한다
     - 대량의 데이터를 가공하여 축소하는 리덕션이라고 할 수 있다.
 
-##스트림이 제공하는 기본 집계함수
+## 스트림이 제공하는 기본 집계함수
 | 반환타입 | 메서드 | 설명 |
 |---|:---:|---:|
 | `long` | count() | 요소 개수 |
@@ -82,7 +87,7 @@
 | `OptionalDouble` | average()| 요소 평균 |
 | `int, long, double` | sum()| 요소 총합 |
 
-##OptionalXXX 클래스
+## OptionalXXX 클래스
   - 자바 8부터 추가된 값을 저장하는 값 기반 클래스
   - java.util 패키지의 Optional, OptionalDouble, OptionalInt, OptionalLong 클래스를 의미
   - 저장된 값을 얻으려면 get(), getAsDouble(), getAsInt(), getAsLong()를 호출한다.
@@ -214,6 +219,7 @@
     .get();
     // NoSuchElementException 발생 우려 존재(get()실행)
 //--------------------------------
+```java
   int sum = studentList.stream();
     .map(student :: getScore)
     .reduce(0, (a, b) -> a+b);
@@ -221,7 +227,7 @@
 
   ```
 
-# 수집 collect()
+## 수집 collect()
   - 최종 처리 기능으로 요소들을 수집 또는 그룹핑한다.  
     - 필터링 또는 매핑된 요소들로 구성된 새로운 컬렉션을 생성한다.
 

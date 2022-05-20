@@ -65,7 +65,8 @@
 
 
 ## 스트림의 종류
-      <img src="./스트림 종류.jpg" width="800px" height="400px" title="스트림 종류" alt="stream type"></img><br/>
+    ![ex_screenshot](./스트림 종류.jpg)
+  <img src="./스트림 종류.jpg" width="800px" height="400px" title="스트림 종류" alt="stream type"></img><br/>
 
 
 

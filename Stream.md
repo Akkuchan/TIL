@@ -42,8 +42,8 @@
             list.parallerlStream()
               .parallelStream
               .forEach(ParallelExample :: print);    
-})
-```
+            })
+            ```
 
   - 스트림은 중간 처리와 최종 처리를 할 수 있다.
     - 중간처리: 요소들의 매핑, 필터링, 정렬

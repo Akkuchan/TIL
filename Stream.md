@@ -238,6 +238,143 @@
   - boxed(): int, long, double 요소를 Integer, Long, Double로 박싱해 Stream 생성
 
 
+### 정렬 메서드 sorted()
+  - 중간 처리 기능으로 최종 처리되기 전에 요소를 정렬
+  | 리턴타입 | 메서드(매개변수) | 설명 |
+  |---|:---:|---:|
+  | `Stream<T>` | sorted() | 객체를 Caomparable 구현 방법에 따라 정렬 |
+  | `Stream<T>` | sorted(Comparator <T>) | 객체를 주어진 Comparator에 따라 정렬 |
+  | `DoubleStream` | sorted() | double 요소를 울림 차순으로 정렬|
+  | `IntStream` | sorted() | int 요소를 올림 차순으로 정렬 |
+  | `LongStream` | sorted()| long 요소를 올림 차순으로 정렬|
+
+  - 객체 요소일 경우에는 COmparable을 구현하지 않으면 첫번째 sorted()를 호출하면  ClassCastException이 발현
+  - 객체 요소가 Comparable를 구현하지 않았거나, 구현했다 하더ㅏ도 다른 비교 방법으로 정렬하려면 Comparator를 매개값으로 갖는 두번째 sorted()를 사용
+    - Comparator는 함수적 인터페이스이므로 다음과 같이 람다식으로 매개값을 작성할 수 있다.
+    ```java
+    sorted( (a, b) -> {...})
+    ```
+    - 중괄호{} 안에는 a와 b를 비교해서 a가 작으면 음수, a가 크면 양수, 같으면 0을 반환
+
+#### 정렬 코드 예시
+  ```java
+     sorted();// 기본비교(Comparable이 기본적으로 가지고 있는 방식대로 정렬)
+     sorted( (a,b) -> a.compareTo(b));// a와 b를 비교하는데 있어 a에 구현되어있는 compareTo()대로 구현한다
+     sorted(Comparator.naturalOrder());// Comparator 클래스의 naturalOrder()를 이용해 기본 비교를 하겠다
+  ```
+  - 객체 요소가 Comparable을 구현하고 있고, 기본 비교(Comparable) 방법으로 정렬한다.
+  - 만약 정반대로(내림차순)으로 비교하겠다면 아래 방식으로 진행한다
+  ```java
+     sorted( (a,b) -> b.compareTo(a));// a와 b를 비교하는데 있어 a에 구현되어있는 compareTo()대로 구현한다
+     sorted(Comparator.reverseOrder());// Comparator 클래스의 reverseOrder()를 이용해 기본 비교를 하겠다
+  ```
+    ※ 예시 코드
+    ```java
+    public class Student implements Comparable<Student> {
+    private String name;
+    private int score;
+
+    public Student(String name, int score) {
+        this.name = name;
+        this.score = score;
+    }
+
+    public String getName() { return name; }
+    public int getScore() { return score; }
+
+    @Override
+    public int compareTo(Student o) {//Comparable 클래스의 추상메서드인 compareTO를 구(오버라이딩)
+        return Integer.compare(score, o.score);
+  }  
+public class SortingExample {
+    public static void main(String[] args) {
+        //숫자 요소일 경우
+        IntStream intStream = Arrays.stream(new int[] {5, 3, 2, 1, 4});
+        intStream
+            .sorted() // 숫자를 오름차순으로 정렬
+            .forEach(n -> System.out.print(n + ","));
+        System.out.println();
+
+        //객체 요소일 경우
+        List<Student> studentList = Arrays.asList(
+            new Student("홍길동", 30),
+            new Student("신용권", 10),
+            new Student("유미선", 20)
+        );
+
+        studentList.stream()
+            .sorted( ) // 정수를 기준으로 오름차순 정렬
+            .forEach(s -> System.out.print(s.getScore() + ","));
+        System.out.println();
+
+        studentList.stream()
+        .sorted( Comparator.reverseOrder() ) // 정수를 기준으로 내림차순 정렬
+        .forEach(s -> System.out.print(s.getScore() + ","));    
+    }
+}
+
+```
+
+
+## 루핑(looping)
+    - 중간, 최종 처리 기능으로 요소 전체를 반복하는 것
+    - 대표적으로 중간 처리 메서드 peek()과 최종처리 메서드 forEach()가 있다.
+
+### peek()
+  - 최종 처리 메서드가 실행되지 않으면 중간 처리 메서드는 지연됨
+
+#### 정렬 코드 예시
+
+``` java
+  public static void main(String[] args) {
+       int[] intArr = { 1, 2, 3, 4, 5 };
+
+       System.out.println("[peek()를 마지막에 호출한 경우]");
+       Arrays.stream(intArr)
+           .filter(a -> a%2==0)
+           .peek(n -> System.out.println(n));   //동작하지 않음
+
+       System.out.println("[최종 처리 메소드를 마지막에 호출한 경우]");
+       int total = Arrays.stream(intArr)
+           .filter(a -> a%2==0)
+           .peek(n -> System.out.println(n))   //동작함
+           .sum();// 최종 처리 메서드가 마지막에 호출되었기에 이전 중간 처리 메서드들이 모두 실행된다.
+       System.out.println("총합: " + total);
+
+       System.out.println("[forEach()를 마지막에 호출한 경우]");
+       Arrays.stream(intArr)
+           .filter(a -> a%2==0)
+           .forEach(n -> System.out.println(n)); //동작함
+   }
+```
+
+## 매칭(matching)
+    - 최종 처리 기능으로 요소들이 특정 조건을 만족하는지 조사하는 것
+
+### allMatch()
+  - 모든 요소들이 매개값으로 주어진 Predicate의 조건을 만족하는지 조사
+
+### anyMatch()
+  - 최소한 한 개의 요소가 매개값으로 주어진 Predicate의 조건을 만족하는지 조사
+
+### noneMatch()
+  - 모든 요소들이 매개값으로 주어진 Predicate의 조건을 만족하지 않는지 조사
+  - 위의 세 메서드 모두 Int, Long, DoubleStream 인터페이스의 추상 메서드이다 리턴타입은 모두 boolean이다.
+
+```java
+public static void main(String[] args) {
+        int[] intArr = { 2, 4 ,6 };
+
+        boolean result = Arrays.stream(intArr).allMatch(a -> a%2==0);
+        System.out.println("모두 2의 배수인가? " + result);
+
+        result = Arrays.stream(intArr).anyMatch(a -> a%3==0);
+        System.out.println("하나라도 3의 배수가 있는가? " + result);
+
+        result = Arrays.stream(intArr).noneMatch(a -> a%3==0);
+        System.out.println("3의 배수가 없는가?  " + result);
+    }
+```
 
 
 ## 집계(Aggregate)
@@ -452,7 +589,7 @@
 
 
 
-
+---------------------------------------------------------------------------------------------------------
 
 
 ## 컬렉션과 스트림의 차이

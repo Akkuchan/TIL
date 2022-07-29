@@ -1,6 +1,7 @@
+import java.util.stream.Stream;
+
 public class test {
     public static void main(String[] args) {
-        String output = Number_four.firstCharacter("");
-        System.out.println(output);
+        Stream.of("a","b","c","","e","f").takeWhile(s->!s.isEmpty());
     }
 }
